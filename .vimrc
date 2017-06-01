@@ -7,6 +7,7 @@ Plugin 'valloric/youcompleteme'
 Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-fugitive'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'derekwyatt/vim-fswitch'
 call vundle#end()
 filetype plugin indent on
 
