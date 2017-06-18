@@ -6,8 +6,8 @@ Xft.antialias                : 1
 Xft.dpi                      : 96
 Xft.rgba                     : rgb
 
-URxvt.background: #1B1D1E
-URxvt.foreground: #CCCCCC
+URxvt.background             : #1B1D1E
+URxvt.foreground             : #CCCCCC
 URxvt.font                   : xft:Liberation Mono for Powerline:pixelsize=12
 URxvt.boldFont               : xft:Liberation Mono for Powerline:pixelsize=12
 URxvt.scrollBar              : false
