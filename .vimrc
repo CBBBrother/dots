@@ -64,7 +64,7 @@ set shiftwidth=4
 set expandtab
 
 " ширина текста в символах
-set textwidth=110
+set textwidth=95
 
 " Ctrl+n позазывает/прячет NERDTree
 " при открытии пустого вим, автоматически открывает NERDTree
