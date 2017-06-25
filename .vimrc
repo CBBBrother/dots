@@ -23,12 +23,9 @@ call vundle#begin()
 Plugin 'scrooloose/nerdtree'
 Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-fugitive'
+Plugin 'vim-airline/vim-airline'
 call vundle#end()
 filetype plugin indent on
-
-" установка powerline
-let g:powerline_pycmd = 'py3'
-set  rtp+=/usr/lib/python3.6/site-packages/powerline/bindings/vim/
 
 " показывать строку статуса всегда
 set laststatus=2
@@ -66,6 +63,10 @@ set expandtab
 " ширина текста в символах
 set textwidth=95
 
+if has('gui_running')
+    set guifont=Liberation\ Mono\ for\ Powerline
+endif
+
 " Ctrl+n позазывает/прячет NERDTree
 " при открытии пустого вим, автоматически открывает NERDTree
 map <C-n> :NERDTreeToggle<cr>
@@ -78,3 +79,7 @@ let NERDTreeIgnore = ['\.pyc$', '\.o$']
 " установка цветовой схемы
 let g:molokai_original=1
 colorscheme molokai
+
+" добавляет airline в области вкладок
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
