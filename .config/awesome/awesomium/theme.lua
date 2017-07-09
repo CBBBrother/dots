@@ -16,7 +16,7 @@ theme.font          = "Liberation Mono for Powerline Bold 10"
 
 theme.bg_normal     = "#111111" 
 theme.bg_focus      = "#111111"
-theme.bg_urgent     = "#FFFFFF"
+theme.bg_urgent     = "#777777"
 theme.bg_minimize   = "#444444"
 theme.bg_systray    = theme.bg_normal
 
