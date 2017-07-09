@@ -32,7 +32,6 @@ theme.border_focus  = "#93B6FF"
 theme.border_marked = "#91231c"
 
 theme.taglist_fg_focus = "#F6784F"
-theme.taglist_bg_focus = "#060606"
 
 theme.taglist_squares_sel = themes_path..'/taglist/squarefw.png'
 theme.taglist_squares_unsel = themes_path..'/taglist/squarew.png'
