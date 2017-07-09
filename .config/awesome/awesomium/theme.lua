@@ -31,6 +31,12 @@ theme.border_normal = "#141414"
 theme.border_focus  = "#93B6FF"
 theme.border_marked = "#91231c"
 
+theme.taglist_fg_focus = "#F6784F"
+theme.taglist_bg_focus = "#060606"
+
+theme.taglist_squares_sel = themes_path..'/taglist/squarefw.png'
+theme.taglist_squares_unsel = themes_path..'/taglist/squarew.png'
+
 -- There are other variable sets
 -- overriding the  one when
 -- defined, the sets are:
@@ -45,13 +51,14 @@ theme.border_marked = "#91231c"
 --theme.taglist_bg_focus = "#ff0000"
 
 -- Generate taglist squares:
-local taglist_square_size = dpi(4)
-theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
-    taglist_square_size, theme.fg_normal
-)
-theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
-    taglist_square_size, theme.fg_normal
-)
+--
+--local taglist_square_size = dpi(4)
+--theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
+--    taglist_square_size, theme.fg_normal
+--)
+--theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
+--    taglist_square_size, theme.fg_normal
+--)
 
 -- Variables set for theming notifications:
 -- notification_font
@@ -109,7 +116,7 @@ theme.layout_max = themes_path.."/layouts/maxw.png"
 theme.layout_fullscreen = themes_path.."/layouts/fullscreenw.png"
 theme.layout_tilebottom = themes_path.."/layouts/tilebottomw.png"
 theme.layout_tileleft   = themes_path.."/layouts/tileleftw.png"
-theme.layout_tile = themes_path.."/layouts/tilew.png"
+theme.layout_tile = themes_path.."/layouts/tile.png"
 theme.layout_tiletop = themes_path.."/layouts/tiletopw.png"
 theme.layout_spiral  = themes_path.."/layouts/spiralw.png"
 theme.layout_dwindle = themes_path.."/layouts/dwindlew.png"
