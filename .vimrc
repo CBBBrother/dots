@@ -39,7 +39,7 @@ set guioptions=
 " включаем подсветку выражения, которое ищется в текст
 set hlsearch
 
-" eсли искомое выражения содержит символы в верхнем регистре — ищет с учётом регистра, иначе — без учёта																		
+" eсли искомое выражения содержит символы в верхнем регистре — ищет с учётом регистра, иначе — без учёта
 set smartcase
 
 " игнорировать регистр букв при поиске
@@ -77,9 +77,20 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 let NERDTreeIgnore = ['\.pyc$', '\.o$']
 
 " установка цветовой схемы
-let g:molokai_original=1
-colorscheme molokai
+let g:hybrid_use_Xresources=1
+colorscheme hybrid
 
 " добавляет airline в области вкладок
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
+
+" Page tabs
+map <C-1> 1gt
+map <C-2> 2gt
+map <C-3> 3gt
+map <C-4> 4gt
+map <C-5> 5gt
+map <C-6> 6gt
+map <C-7> 7gt
+map <C-8> 8gt
+map <C-9> 9gt

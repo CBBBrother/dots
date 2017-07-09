@@ -12,23 +12,23 @@ local themes_path = os.getenv("HOME") .. "/.config/awesome/awesomium"
 
 local theme = {}
 
-theme.font          = "Liberation Mono for Powerline 10"
+theme.font          = "Liberation Mono for Powerline Bold 10"
 
-theme.bg_normal     = "#272822" -- цвет как в виме бекграунд
-theme.bg_focus      = "#3E3D32"
-theme.bg_urgent     = "#ff0000"
+theme.bg_normal     = "#111111" 
+theme.bg_focus      = "#111111"
+theme.bg_urgent     = "#FFFFFF"
 theme.bg_minimize   = "#444444"
 theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = "#aaaaaa"
-theme.fg_focus      = "#ffffff"
-theme.fg_urgent     = "#ffffff"
+theme.fg_normal     = "#BBBBBB"
+theme.fg_focus      = "#78A4FF"
+theme.fg_urgent     = "#000000"
 theme.fg_minimize   = "#ffffff"
 
 theme.useless_gap   = 4
 theme.border_width  = dpi(1)
-theme.border_normal = "#272822"
-theme.border_focus  = "#535d6c"
+theme.border_normal = "#141414"
+theme.border_focus  = "#93B6FF"
 theme.border_marked = "#91231c"
 
 -- There are other variable sets
@@ -63,8 +63,8 @@ theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
 theme.menu_submenu_icon = themes_path.."/submenu.png"
-theme.menu_height = dpi(15)
-theme.menu_width  = dpi(100)
+theme.menu_height = dpi(20)
+theme.menu_width  = dpi(130)
 
 -- You can add as many variables as
 -- you wish and access them by using

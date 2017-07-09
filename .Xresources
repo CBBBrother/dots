@@ -1,3 +1,5 @@
+#include ".colors/copland"
+
 Xft.lcdfilter                : lcddefault
 Xft.hintstyle                : hintslight
 Xft.hinting                  : 1
@@ -8,9 +10,9 @@ Xft.rgba                     : rgb
 
 URxvt.background             : #1B1D1E
 URxvt.foreground             : #CCCCCC
-URxvt.font                   : xft:Liberation Mono for Powerline:pixelsize=12
+URxvt.font                   : xft:Liberation Mono for Powerline:bold:pixelsize=12
 URxvt.letterSpace            : -1
-URxvt.boldFont               : xft:Liberation Mono for Powerline:pixelsize=12
+URxvt.boldFont               : xft:Liberation Mono for Powerline:bold:pixelsize=12
 URxvt.scrollBar              : false
 URxvt.buffered               : true
 URxvt.iso14755               : false
