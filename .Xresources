@@ -11,7 +11,7 @@ Xft.rgba                     : rgb
 URxvt.background             : #1B1D1E
 URxvt.foreground             : #CCCCCC
 URxvt.font                   : xft:Liberation Mono for Powerline:pixelsize=12, xft:DejaVu Sans Mono for Powerline:size=12
-URxvt.letterSpace            : -2
+URxvt.letterSpace            : -1
 URxvt.boldFont               : xft:Liberation Mono for Powerline:bold:pixelsize=12, xft:DejaVu Sans Mono for Powerline:size=12
 URxvt.scrollBar              : false
 URxvt.buffered               : true
