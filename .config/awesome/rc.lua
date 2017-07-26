@@ -56,12 +56,12 @@ modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-    awful.layout.suit.floating,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
     awful.layout.suit.max,
+    awful.layout.suit.floating
 }
 -- }}}
 
@@ -85,13 +85,14 @@ end
 myawesomemenu = {
    { "hotkeys", function() return false, hotkeys_popup.show_help end},
    { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", function() awesome.quit() end}
+   { "edit config", editor_cmd .. " " .. awesome.conffile }
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
+                                    { "firefox", "firefox"},
+                                    { "-------",},
+                                    { "reboot", "reboot"},
+                                    { "quit", "shutdown -h now"}
                                   }
                         })
 
