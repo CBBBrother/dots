@@ -4,7 +4,9 @@
 /Arduino
 /screenshots
 /Pictures
-/.ssh
+/.ssh/*
+!.ssh/config
+
 /.thumbnails
 /.python_history
 /Music
@@ -39,6 +41,7 @@
 .mpd/log
 .mpd/playlists/
 .mpd/database
+.mpd/pid
 .lesshst
 .esd_auth
 .gimp*
@@ -51,4 +54,4 @@
 /.lyrics
 /.oracle_jre_usage
 /.jssc
-
+.viminfo.tmp
