@@ -61,7 +61,8 @@ awful.layout.layouts = {
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
     awful.layout.suit.max,
-    awful.layout.suit.floating
+    awful.layout.suit.floating,
+    awful.layout.suit.fair
 }
 -- }}}
 
