@@ -6,13 +6,14 @@ local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 
+local gsh = require("gears.shape")
 local gfs = require("gears.filesystem")
 local themes_path = os.getenv("HOME") .. "/.config/awesome/awesomium"
 
 
 local theme = {}
 
-theme.font          = "Liberation Mono for Powerline Bold 10"
+theme.font          = "Source Code Pro Meduim Bold 10"
 
 theme.bg_normal     = "#2f2f31" 
 theme.bg_focus      = "#111111"
@@ -31,10 +32,12 @@ theme.border_normal = "#141414"
 theme.border_focus  = "#93B6FF"
 theme.border_marked = "#91231c"
 
+--theme.taglist_shape_focus = gsh.circle
 theme.taglist_fg_focus = "#F6784F"
+theme.taglist_font = "Roboto Mono Medium for Powerline 16"
 
-theme.taglist_squares_sel = themes_path..'/taglist/squarefw.png'
-theme.taglist_squares_unsel = themes_path..'/taglist/squarew.png'
+--theme.taglist_squares_sel = themes_path..'/taglist/squarefw.png'
+--theme.taglist_squares_unsel = themes_path..'/taglist/squarew.png'
 
 -- There are other variable sets
 -- overriding the  one when

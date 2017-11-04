@@ -174,7 +174,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "web", "term", "code", "chat", "misc" }, s, awful.layout.layouts[1])
+    awful.tag({ "", "", "", "", "" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     --s.mypromptbox = awful.widget.prompt()
@@ -193,7 +193,7 @@ awful.screen.connect_for_each_screen(function(s)
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
 
     -- Create the wibox
-    s.topbar = awful.wibar({ position = "top", screen = s })
+    s.topbar = awful.wibar({ position = "top", screen = s, height = 27, width = 1800 })
     s.bottombar = awful.wibar({ position = "bottom", screen = s })
 
     -- Add widgets to the wibox
@@ -202,10 +202,13 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             s.mylayoutbox,
-            s.mytaglist,
             s.mypromptbox,
         },
-        nil,
+        {
+            layout = wibox.layout.flex.horizontal,
+            wibox.widget.textbox(),
+            s.mytaglist,
+        },
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
@@ -481,20 +484,6 @@ awful.rules.rules = {
       }, properties = { titlebars_enabled = false }
     },
 
-    -- Set Firefox to always map on the tag named "web".
-     { rule = { class = "Firefox" }, properties = { tag = "web" } },
-
-    -- Set urxvt to always map on the tag named "term".
-     { rule = { name = "urxvt" }, properties = { tag = "term" } },
-       
-    -- Set gvim to always map on the tag named "code".
-     { rule = { instance = "gvim" }, properties = { tag = "code" } },
-
-    -- Set telegram to always map on the tag named "chat".
-     { rule = { instance = "Telegram" }, properties = { tag = "chat" } },
-
-    -- Set gvim to always map on the tag named "misc".
-     { rule = { instance = "ncmcpp" }, properties = { tag = "misc" } },
 }
 -- }}}
 

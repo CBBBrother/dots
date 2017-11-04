@@ -67,7 +67,7 @@ set expandtab
 set textwidth=95
 
 if has('gui_running')
-    set guifont=Liberation\ Mono\ for\ Powerline
+    set guifont=Source\ Code\ Pro\ Medium
 endif
 
 " Ctrl+n позазывает/прячет NERDTree

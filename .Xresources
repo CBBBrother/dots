@@ -10,17 +10,12 @@ Xft.rgba                     : rgb
 
 URxvt.background             : #1B1D1E
 URxvt.foreground             : #CCCCCC
-URxvt.font                   : xft:Liberation Mono for Powerline:pixelsize=12, xft:DejaVu Sans Mono for Powerline:size=12
-URxvt.letterSpace            : -1
-URxvt.boldFont               : xft:Liberation Mono for Powerline:bold:pixelsize=12, xft:DejaVu Sans Mono for Powerline:bold:size=12
+URxvt.font                   : xft:Source Code Pro Medium:pixelsize=14, xft:DejaVu Sans Mono for 
+Powerline:size=12
+URxvt.letterSpace            : 0
+URxvt.boldFont               : xft:Source Code Pro Medium:bold:pixelsize=14, xft:DejaVu Sans Mono 
+for Powerline:bold:size=12
 URxvt.scrollBar              : false
 URxvt.url-select.launcher    : /usr/bin/firefox
 URxvt.url-select.underline   : true
 
-! ------------------------------------------------------------------------------
-! ROFI Color theme
-! ------------------------------------------------------------------------------
-rofi.color-enabled: true
-rofi.color-window: #273238, #273238, #1e2529
-rofi.color-normal: #273238, #c1c1c1, #273238, #394249, #ffffff
-rofi.color-active: #273238, #80cbc4, #273238, #394249, #80cbc
