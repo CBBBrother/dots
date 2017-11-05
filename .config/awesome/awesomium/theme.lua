@@ -16,7 +16,7 @@ local theme = {}
 theme.font          = "Source Code Pro Meduim Bold 10"
 
 theme.bg_normal     = "#2f2f31" 
-theme.bg_focus      = "#111111"
+theme.bg_focus      = "#2f2f31"
 theme.bg_urgent     = "#777777"
 theme.bg_minimize   = "#444444"
 theme.bg_systray    = theme.bg_normal
@@ -32,8 +32,9 @@ theme.border_normal = "#141414"
 theme.border_focus  = "#93B6FF"
 theme.border_marked = "#91231c"
 
---theme.taglist_shape_focus = gsh.circle
+theme.taglist_fg_empty = "#444444"
 theme.taglist_fg_focus = "#F6784F"
+theme.taglist_fg_occupied = "#999999"
 theme.taglist_font = "Roboto Mono Medium for Powerline 16"
 
 --theme.taglist_squares_sel = themes_path..'/taglist/squarefw.png'
