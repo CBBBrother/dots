@@ -21,21 +21,23 @@ theme.bg_urgent     = "#777777"
 theme.bg_minimize   = "#444444"
 theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = "#BBBBBB"
-theme.fg_focus      = "#78A4FF"
+theme.fg_normal     = "#bbbbbb"
+theme.fg_focus      = "#78a4ff"
 theme.fg_urgent     = "#000000"
 theme.fg_minimize   = "#ffffff"
 
 theme.useless_gap   = 4
 theme.border_width  = dpi(2)
 theme.border_normal = "#141414"
-theme.border_focus  = "#93B6FF"
+theme.border_focus  = "#93b6ff"
 theme.border_marked = "#91231c"
 
 theme.taglist_fg_empty = "#444444"
-theme.taglist_fg_focus = "#F6784F"
+theme.taglist_fg_focus = "#f6784f"
 theme.taglist_fg_occupied = "#999999"
 theme.taglist_font = "Roboto Mono Medium for Powerline 16"
+theme.taglist_spacing = 8
+
 
 --theme.taglist_squares_sel = themes_path..'/taglist/squarefw.png'
 --theme.taglist_squares_unsel = themes_path..'/taglist/squarew.png'

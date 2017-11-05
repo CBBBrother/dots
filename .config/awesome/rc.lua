@@ -12,6 +12,7 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- Enable VIM help for hotkeys widget when client with matching name is opened:
 require("awful.hotkeys_popup.keys.vim")
+local separators = require("awesomium.utils.separators")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -174,7 +175,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "", "", "", "", "" }, s, awful.layout.layouts[1])
+    awful.tag({ "", "", "", "", "", "" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     --s.mypromptbox = awful.widget.prompt()
@@ -193,7 +194,7 @@ awful.screen.connect_for_each_screen(function(s)
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
 
     -- Create the wibox
-    s.topbar = awful.wibar({ position = "top", screen = s, height = 27, width = 1800 })
+    s.topbar = awful.wibar({ position = "top", screen = s, height = 25, width = 1800 })
     s.bottombar = awful.wibar({ position = "bottom", screen = s })
 
     -- Add widgets to the wibox
@@ -211,9 +212,13 @@ awful.screen.connect_for_each_screen(function(s)
         },
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            mykeyboardlayout,
-            wibox.widget.systray(),
-            mytextclock,
+            separators.arrow_left("alpha", "#8DAA9A"),
+            wibox.container.background(mykeyboardlayout, "#8DAA9A"),
+            separators.arrow_left("#8DAA9A", "#C0C0A2"),
+            wibox.container.background(wibox.widget.systray(), "#C0C0A2"),
+            separators.arrow_left("#C0C0A2", "#777E76"),
+            wibox.container.background(mytextclock, "#777E76"),
+            separators.arrow_left("#777E76", "alpha")
         },
     }
 
