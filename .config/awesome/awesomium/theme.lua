@@ -38,6 +38,10 @@ theme.taglist_fg_occupied = "#999999"
 theme.taglist_font = "Roboto Mono Medium for Powerline 16"
 theme.taglist_spacing = 8
 
+theme.widget_music = themes_path .. "/icons/note.png"
+theme.widget_music_on = themes_path .. "/icons/note_on.png"
+theme.widget_music_pause = themes_path .. "/icons/pause.png"
+
 
 --theme.taglist_squares_sel = themes_path..'/taglist/squarefw.png'
 --theme.taglist_squares_unsel = themes_path..'/taglist/squarew.png'

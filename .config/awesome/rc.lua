@@ -12,7 +12,8 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- Enable VIM help for hotkeys widget when client with matching name is opened:
 require("awful.hotkeys_popup.keys.vim")
-local separators = require("awesomium.utils.separators")
+local separators = require("lain.util.separators")
+local lain = require("lain")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -112,6 +113,52 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
 
+-- MPD
+local markup = lain.util.markup
+local musicplr = terminal .. " -title Music -g 130x34-320+16 -e ncmpcpp"
+local mpdicon = wibox.widget.imagebox(beautiful.widget_music)
+mpdicon:buttons(awful.util.table.join(
+    awful.button({ modkey }, 1, function () awful.spawn.with_shell(musicplr) end),
+    awful.button({ }, 1, function ()
+        awful.spawn.with_shell("mpc prev")
+        beautiful.mpd.update()
+    end),
+    awful.button({ }, 2, function ()
+        awful.spawn.with_shell("mpc toggle")
+        beautiful.mpd.update()
+    end),
+    awful.button({ }, 3, function ()
+        awful.spawn.with_shell("mpc next")
+        beautiful.mpd.update()
+    end)))
+beautiful.mpd = lain.widget.mpd({
+    settings = function()
+        if mpd_now.state == "play" then
+            artist = " " .. mpd_now.artist .. " "
+            title  = mpd_now.title  .. " "
+            mpdicon:set_image(beautiful.widget_music_on)
+            widget:set_markup(markup.font(beautiful.font, markup("#FF8466", artist) .. " " .. title))
+        elseif mpd_now.state == "pause" then
+            widget:set_markup(markup.font(beautiful.font, " mpd paused "))
+            mpdicon:set_image(beautiful.widget_music_pause)
+        else
+            widget:set_text("")
+            mpdicon:set_image(beautiful.widget_music)
+        end
+    end
+})
+
+-- ALSA volume
+beautiful.volume = lain.widget.alsa({
+    settings = function()
+        if volume_now.status == "off" then
+            volume_now.level = volume_now.level .. "M"
+        end
+
+        widget:set_markup(markup.fontfg(beautiful.font, "#7493d2", volume_now.level .. "% "))
+    end
+
+})
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
                     awful.button({ }, 1, function(t) t:view_only() end),
@@ -202,8 +249,10 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            s.mylayoutbox,
-            s.mypromptbox,
+            separators.arrow_right("#777E76", "alpha"),
+            wibox.container.background(wibox.container.margin(wibox.widget { mpdicon, beautiful.mpd.widget, layout = wibox.layout.align.horizontal }, 3, 6), beautiful.bg_focus),            
+            separators.arrow_right("alpha", "#CB755B"),
+            beautiful.volume.widget,
         },
         {
             layout = wibox.layout.flex.horizontal,
@@ -310,7 +359,7 @@ globalkeys = gears.table.join(
               {description = "select previous", group = "layout"}),
 
     awful.key({ modkey, "Control" }, "n",
-              function ()
+    function ()
                   local c = awful.client.restore()
                   -- Focus restored client
                   if c then
@@ -336,7 +385,27 @@ globalkeys = gears.table.join(
               {description = "lua execute prompt", group = "awesome"}),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"})
+              {description = "show the menubar", group = "launcher"}),
+
+    -- Volume
+    awful.key({}, "#123",
+        function ()
+            os.execute(string.format("amixer -q set %s 1%%+", beautiful.volume.channel))
+            beautiful.volume.update()
+        end,
+        {description = "volume up", group = "hotkeys"}),
+    awful.key({}, "#122",
+        function ()
+            os.execute(string.format("amixer -q set %s 1%%-", beautiful.volume.channel))
+            beautiful.volume.update()
+        end,
+        {description = "volume down", group = "hotkeys"}),
+    awful.key({}, "#121",
+        function ()
+            os.execute(string.format("amixer -q set %s toggle", beautiful.volume.togglechannel or beautiful.volume.channel))
+            beautiful.volume.update()
+        end,
+        {description = "toggle mute", group = "hotkeys"})
 )
 
 clientkeys = gears.table.join(
