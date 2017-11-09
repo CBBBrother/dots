@@ -431,7 +431,10 @@ globalkeys = gears.table.join(
             awful.spawn.with_shell("mpc next")
             beautiful.mpd.update()
         end,
-        {description = "mpc next", group = "widgets"})
+        {description = "mpc next", group = "widgets"}),
+
+    awful.key({}, "#148",     function () awful.util.spawn("mate-calc") end,
+        {description = "run calc", group = "widgets"})
 )
 
 clientkeys = gears.table.join(
