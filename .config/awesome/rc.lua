@@ -152,13 +152,20 @@ beautiful.mpd = lain.widget.mpd({
 beautiful.volume = lain.widget.alsa({
     settings = function()
         if volume_now.status == "off" then
-            volume_now.level = volume_now.level .. "M"
+            volume_now.level = "  " .. volume_now.level .. "M"
+        elseif tonumber(string.sub(volume_now.level, 1, string.len(volume_now.level))) <= 50 then
+            volume_now.level = "  " .. volume_now.level
+        else
+            volume_now.level = "  " .. volume_now.level
         end
 
         widget:set_markup(markup.fontfg(beautiful.font, "#7493d2", volume_now.level .. "% "))
     end
 
 })
+
+-- Battery icon            
+
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
                     awful.button({ }, 1, function(t) t:view_only() end),
@@ -252,7 +259,7 @@ awful.screen.connect_for_each_screen(function(s)
             separators.arrow_right("#777E76", "alpha"),
             wibox.container.background(wibox.container.margin(wibox.widget { mpdicon, beautiful.mpd.widget, layout = wibox.layout.align.horizontal }, 3, 6), beautiful.bg_focus),            
             separators.arrow_right("alpha", "#CB755B"),
-            beautiful.volume.widget,
+            wibox.container.background(wibox.container.margin(wibox.widget { beautiful.volume.widget, layout = wibox.layout.align.horizontal }, 3, 6), beautiful.bg_focus),            
         },
         {
             layout = wibox.layout.flex.horizontal,
