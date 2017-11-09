@@ -405,7 +405,33 @@ globalkeys = gears.table.join(
             os.execute(string.format("amixer -q set %s toggle", beautiful.volume.togglechannel or beautiful.volume.channel))
             beautiful.volume.update()
         end,
-        {description = "toggle mute", group = "hotkeys"})
+        {description = "toggle mute", group = "hotkeys"}),
+
+        -- MPD control
+    awful.key({}, "#172",
+        function ()
+            awful.spawn.with_shell("mpc toggle")
+            beautiful.mpd.update()
+        end,
+        {description = "mpc toggle", group = "widgets"}),
+    awful.key({}, "#174",
+        function ()
+            awful.spawn.with_shell("mpc stop")
+            beautiful.mpd.update()
+        end,
+        {description = "mpc stop", group = "widgets"}),
+    awful.key({}, "#173",
+        function ()
+            awful.spawn.with_shell("mpc prev")
+            beautiful.mpd.update()
+        end,
+        {description = "mpc prev", group = "widgets"}),
+    awful.key({}, "#171",
+        function ()
+            awful.spawn.with_shell("mpc next")
+            beautiful.mpd.update()
+        end,
+        {description = "mpc next", group = "widgets"})
 )
 
 clientkeys = gears.table.join(
