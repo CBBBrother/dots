@@ -17,9 +17,6 @@ set showmatch
 " отключаем создание swp файлов
 set noswapfile
 
-" включаем виртуальный звонок (мигание вместо спикера)
-set visualbell
-
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
