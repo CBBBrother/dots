@@ -28,6 +28,8 @@ Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-fugitive'
 Plugin 'vim-airline/vim-airline'
 Plugin 'majutsushi/tagbar'
+
+" Syntastic ставится через pacman
 call vundle#end()
 filetype plugin indent on
 
