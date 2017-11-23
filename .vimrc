@@ -27,6 +27,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-fugitive'
 Plugin 'vim-airline/vim-airline'
+Plugin 'majutsushi/tagbar'
 call vundle#end()
 filetype plugin indent on
 
@@ -78,6 +79,9 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " игнорируем некоторые скомпилированные файлы python и объектники С++ в окне NERDTree
 let NERDTreeIgnore = ['\.pyc$', '\.o$']
+
+" Открытие Tagbar справа
+nmap <F8> :TagbarToggle<CR>
 
 " установка цветовой схемы
 let g:hybrid_use_Xresources=1
