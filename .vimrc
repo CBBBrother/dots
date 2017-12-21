@@ -25,6 +25,7 @@ Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-fugitive'
 Plugin 'vim-airline/vim-airline'
 Plugin 'majutsushi/tagbar'
+Plugin 'kien/ctrlp.vim'
 
 " Syntastic ставится через pacman
 call vundle#end()
@@ -71,10 +72,7 @@ if has('gui_running')
 endif
 
 " Ctrl+n позазывает/прячет NERDTree
-" при открытии пустого вим, автоматически открывает NERDTree
 map <C-n> :NERDTreeToggle<cr>
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " игнорируем некоторые скомпилированные файлы python и объектники С++ в окне NERDTree
 let NERDTreeIgnore = ['\.pyc$', '\.o$']
