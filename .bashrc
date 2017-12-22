@@ -1,14 +1,10 @@
 [ -z "$PS1" ] && return
 [[ $- != *i* ]] && return
 
-alias ll='ls -l'
-alias la='ls -A'
-alias l='ls -CF'
-
 export TERM="xterm-256color"
 
 alias l='ls -lh --color=always --group-directories-first --sort=size'
-alias ls='ls -h --color=auto'
+alias ls='ls -lh --color=auto'
 
 eval $(dircolors -b $HOME/.config/dir_colours)
 
