@@ -10,10 +10,12 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
--- Enable VIM help for hotkeys widget when client with matching name is opened:
-require("awful.hotkeys_popup.keys.vim")
-local separators = require("lain.util.separators")
-local lain = require("lain")
+local vicious    = require("vicious")
+local lain       = require("lain")
+local xrandr     = require("xrandr")
+-- Enable hotkeys help widget for VIM and other apps
+-- when client with a matching name is opened:
+require("awful.hotkeys_popup.keys")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -42,12 +44,14 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-local theme_path = string.format("%s/.config/awesome/awesomium/theme.lua", os.getenv("HOME"))
-beautiful.init(theme_path)
+beautiful.init(os.getenv('HOME') .. "/.config/awesome/awesomium/theme.lua")
+
 -- This is used later as the default terminal and editor to run.
 terminal = "urxvt"
-editor = os.getenv("EDITOR") or "gvim"
+browser = "firefox"
+editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
+i3lock_settings = "lock -f Meslo-LG-S-Regular -t 'Locked' -n"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -62,9 +66,7 @@ awful.layout.layouts = {
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
-    awful.layout.suit.max,
-    awful.layout.suit.floating,
-    awful.layout.suit.fair
+    awful.layout.suit.floating
 }
 -- }}}
 
@@ -81,90 +83,208 @@ local function client_menu_toggle_fn()
         end
     end
 end
+
+-- Autostart windowless processes
+local function run_once(cmd_arr)
+    for _, cmd in ipairs(cmd_arr) do
+        findme = cmd
+        firstspace = cmd:find(" ")
+        if firstspace then
+            findme = cmd:sub(0, firstspace-1)
+        end
+        awful.spawn.with_shell(string.format("pgrep -u $USER -x %s > /dev/null || (%s)", findme, cmd))
+    end
+end
 -- }}}
 
--- {{{ Menu
--- Create a launcher widget and a main menu
-myawesomemenu = {
-   { "hotkeys", function() return false, hotkeys_popup.show_help end},
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile }
-}
+-- Run Once ---
+run_once({ "xautolock -time 10 -corner -locker 'lock -f Meslo-LG-S-Regular -t Locked'" })
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "firefox", "firefox"},
-                                    { "-------",},
-                                    { "reboot", "reboot"},
-                                    { "quit", "shutdown -h now"}
-                                  }
+-- Menu ---
+mymainmenu = awful.menu({ items = {{ " terminal", terminal },
+                                   { " firefox", browser },
+                                   { " pcmanfm", "pcmanfm" },
+                                   { " tor", "tor-browser.desktop" },
+                                   { "---------", "" },
+                                   { " reboot", "reboot" },
+                                   { "⏼ shutdown", "shutdown -h now" },
+                               }
                         })
-
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
-                                     menu = mymainmenu })
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
 -- Keyboard map indicator and switcher
-mykeyboardlayout = awful.widget.keyboardlayout()
+--[[mykeyboardlayout = lain.widget.kbdlayout({
+    layouts = { { layout = "us" },
+	            { layout = "ru" } },
+    settings = function()
+            widget:set_text(kbdlayout_now.layout)
+    end
+})--]]
 
--- {{{ Wibar
--- Create a textclock widget
-mytextclock = wibox.widget.textclock()
-
--- MPD
+-- | Markup | --
 local markup = lain.util.markup
-local musicplr = terminal .. " -title Music -g 130x34-320+16 -e ncmpcpp"
-local mpdicon = wibox.widget.imagebox(beautiful.widget_music)
-mpdicon:buttons(awful.util.table.join(
-    awful.button({ modkey }, 1, function () awful.spawn.with_shell(musicplr) end),
-    awful.button({ }, 1, function ()
-        awful.spawn.with_shell("mpc prev")
-        beautiful.mpd.update()
-    end),
-    awful.button({ }, 2, function ()
-        awful.spawn.with_shell("mpc toggle")
-        beautiful.mpd.update()
-    end),
-    awful.button({ }, 3, function ()
-        awful.spawn.with_shell("mpc next")
-        beautiful.mpd.update()
+
+-- Separators -- 
+sep = wibox.widget.textbox(markup.fg.color("#999999", "  "), false)
+sep:set_font("RobotoMono Nerd Font 9")
+
+-- | User | --
+user_widget = wibox.widget.textbox()
+vicious.register(user_widget, vicious.widgets.os, " $3 ", 5)
+user_widget:buttons(awful.util.table.join(
+                    awful.button({ }, 1, function () mymainmenu:toggle() end)))
+
+-- Battery
+baticon = wibox.widget.imagebox(beautiful.widget_battery)
+bat = lain.widget.bat({ timeout = 10,
+    settings = function()
+        if bat_now.status ~= "N/A" then
+            if bat_now.ac_status == 1 then
+                widget:set_markup(markup.font(beautiful.font, "AC "))
+                baticon:set_image(beautiful.widget_ac)
+                return
+            elseif not bat_now.perc and tonumber(bat_now.perc) <= 5 then
+                baticon:set_image(beautiful.widget_battery_empty)
+            elseif not bat_now.perc and tonumber(bat_now.perc) <= 15 then
+                baticon:set_image(beautiful.widget_battery_low)
+            else
+                baticon:set_image(beautiful.widget_battery)
+            end
+            widget:set_markup(markup.font(beautiful.font, "" .. bat_now.perc .. "% "))
+        else
+            widget:set_markup(markup.font(beautiful.font, "AC "))
+            baticon:set_image(beautiful.widget_ac)
+        end
+    end
+})
+
+-- | Clock / Calendar | --
+mytextclock    = awful.widget.textclock("  %H:%M ")
+mytextcalendar = awful.widget.textclock("  %a %d %b ")
+clockwidget = wibox.widget.background()
+clockwidget:set_widget(mytextclock)
+
+local index = 1
+local loop_widgets = { mytextclock, mytextcalendar }
+
+clockwidget:buttons(awful.util.table.join(awful.button({}, 1,
+    function ()
+        index = index % #loop_widgets + 1
+        clockwidget:set_widget(loop_widgets[index])
     end)))
-beautiful.mpd = lain.widget.mpd({
+
+-- | Volume | --
+volume_widget = wibox.widget.textbox()
+vicious.register(volume_widget, vicious.widgets.volume, "  $1% ", 0.2, "Master")
+
+-- | CPU / TMP | --
+cpu_widget = lain.widgets.cpu({
     settings = function()
+        widget:set_markup("  " .. cpu_now.usage .. "% ")
+    end
+})
+
+-- | MEM | --
+mem_widget = lain.widgets.mem({
+    settings = function()
+        widget:set_markup("  " .. mem_now.used .. "MB ")
+    end
+})
+
+-- | FS | --
+fs_widget = wibox.widget.textbox()
+vicious.register(fs_widget, vicious.widgets.fs, "  ${/ avail_gb}GB ", 2)
+
+-- | NET | --
+net_widgetdl = wibox.widget.textbox()
+net_widgetul = lain.widgets.net({
+    iface = "wlp3s0",
+    settings = function()
+        widget:set_markup("  " .. net_now.sent .. " ")
+        net_widgetdl:set_markup("  " .. net_now.received .. " ")
+    end
+})
+
+-- | MPD | --
+prev_icon = wibox.widget.imagebox()
+prev_icon:set_image(beautiful.mpd_prev)
+next_icon = wibox.widget.imagebox()
+next_icon:set_image(beautiful.mpd_next)
+stop_icon = wibox.widget.imagebox()
+stop_icon:set_image(beautiful.mpd_stop)
+pause_icon = wibox.widget.imagebox()
+pause_icon:set_image(beautiful.mpd_pause)
+play_pause_icon = wibox.widget.imagebox()
+play_pause_icon:set_image(beautiful.mpd_play)
+mpd_sepl = wibox.widget.imagebox()
+mpd_sepl:set_image(beautiful.mpd_sepl)
+mpd_sepr = wibox.widget.imagebox()
+mpd_sepr:set_image(beautiful.mpd_sepr)
+
+mpdwidget = lain.widgets.mpd({
+    settings = function ()
         if mpd_now.state == "play" then
-            artist = " " .. mpd_now.artist .. " "
-            title  = mpd_now.title  .. " "
-            mpdicon:set_image(beautiful.widget_music_on)
-            widget:set_markup(markup.font(beautiful.font, markup("#FF8466", artist) .. " " .. title))
+            mpd_now.artist = mpd_now.artist:upper():gsub("&.-;", string.lower)
+            mpd_now.title = mpd_now.title:upper():gsub("&.-;", string.lower)
+            widget:set_markup(" " .. mpd_now.title .. " ")
+            play_pause_icon:set_image(beautiful.mpd_pause)
+            mpd_sepl:set_image(beautiful.mpd_sepl)
+            mpd_sepr:set_image(beautiful.mpd_sepr)
         elseif mpd_now.state == "pause" then
-            widget:set_markup(markup.font(beautiful.font, " mpd paused "))
-            mpdicon:set_image(beautiful.widget_music_pause)
+            widget:set_markup("MPD PAUSED")
+            play_pause_icon:set_image(beautiful.mpd_play)
+            mpd_sepl:set_image(beautiful.mpd_sepl)
+            mpd_sepr:set_image(beautiful.mpd_sepr)
         else
-            widget:set_text("")
-            mpdicon:set_image(beautiful.widget_music)
+            widget:set_markup("MPD STOP")
+            play_pause_icon:set_image(beautiful.mpd_play)
+            mpd_sepl:set_image(nil)
+            mpd_sepr:set_image(nil)
         end
     end
 })
 
--- ALSA volume
-beautiful.volume = lain.widget.alsa({
-    settings = function()
-        if volume_now.status == "off" then
-            volume_now.level = "  " .. volume_now.level .. "M"
-        elseif tonumber(string.sub(volume_now.level, 1, string.len(volume_now.level))) <= 50 then
-            volume_now.level = "  " .. volume_now.level
-        else
-            volume_now.level = "  " .. volume_now.level
-        end
+musicwidget = wibox.widget.background()
+musicwidget:set_widget(mpdwidget)
+musicwidget:set_bgimage(beautiful.widget_display)
+musicwidget:buttons(awful.util.table.join(awful.button({ }, 1,
+function () awful.util.spawn_with_shell(ncmpcpp) end)))
+prev_icon:buttons(awful.util.table.join(awful.button({}, 1,
+function ()
+    awful.util.spawn_with_shell("mpc prev || ncmpcpp prev")
+    mpdwidget.update()
+end)))
+next_icon:buttons(awful.util.table.join(awful.button({}, 1,
+function ()
+    awful.util.spawn_with_shell("mpc next || ncmpcpp next")
+    mpdwidget.update()
+end)))
+stop_icon:buttons(awful.util.table.join(awful.button({}, 1,
+function ()
+    play_pause_icon:set_image(beautiful.play)
+    awful.util.spawn_with_shell("mpc stop || ncmpcpp stop")
+    mpdwidget.update()
+end)))
+play_pause_icon:buttons(awful.util.table.join(awful.button({}, 1,
+function ()
+    awful.util.spawn_with_shell("mpc toggle || ncmpcpp toggle")
+    mpdwidget.update()
+end)))
 
-        widget:set_markup(markup.fontfg(beautiful.font, "#7493d2", volume_now.level .. "% "))
-    end
+mpdw = wibox.widget {
+   layout = wibox.container.scroll.horizontal,
+   max_size = 200,
+   step_function = wibox.container.scroll.step_functions
+                   .waiting_nonlinear_back_and_forth,
+   speed = 100,
+   {
+       widget = mpdwidget,
+   },
+}
 
-})
-
--- Battery icon            
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -221,19 +341,21 @@ local function set_wallpaper(s)
     end
 end
 
+-- Quake
+local quake = lain.util.quake({ app = terminal, extra = "-e mc", height = 1 })
+
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
+
     -- Wallpaper
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "", "", "", "", "", "" }, s, awful.layout.layouts[1])
+    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
 
-    -- Create a promptbox for each screen
-    --s.mypromptbox = awful.widget.prompt()
-    -- Create an imagebox widget which will contains an icon indicating which layout we're using.
+    -- Create an imagebox widget which will contain an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
     s.mylayoutbox = awful.widget.layoutbox(s)
     s.mylayoutbox:buttons(gears.table.join(
@@ -242,46 +364,58 @@ awful.screen.connect_for_each_screen(function(s)
                            awful.button({ }, 4, function () awful.layout.inc( 1) end),
                            awful.button({ }, 5, function () awful.layout.inc(-1) end)))
     -- Create a taglist widget
-    s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, taglist_buttons)
+    s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.noempty, taglist_buttons)
 
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
 
     -- Create the wibox
-    s.topbar = awful.wibar({ position = "top", screen = s, height = 25, width = 1800 })
-    s.bottombar = awful.wibar({ position = "bottom", screen = s })
+    s.mywibox = awful.wibar({ position = "bottom", screen = s, height = 25 })
+    --s.mywibox1 = awful.wibar({ screen = s, height = 25, width = 60, opacity = 0.1 })
+    --s.mywibox2 = awful.wibar({ position = "bottom", screen = s, height = 25, width = 40, x = 100, y = 100, type = "desktop" })
 
     -- Add widgets to the wibox
-    s.topbar:setup {
+    s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            separators.arrow_right("#777E76", "alpha"),
-            wibox.container.background(wibox.container.margin(wibox.widget { mpdicon, beautiful.mpd.widget, layout = wibox.layout.align.horizontal }, 3, 6), beautiful.bg_focus),            
-            separators.arrow_right("alpha", "#CB755B"),
-            wibox.container.background(wibox.container.margin(wibox.widget { beautiful.volume.widget, layout = wibox.layout.align.horizontal }, 3, 6), beautiful.bg_focus),            
-        },
-        {
-            layout = wibox.layout.flex.horizontal,
-            wibox.widget.textbox(),
             s.mytaglist,
         },
+        --s.mytasklist,  Middle widget
+        nil,
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            separators.arrow_left("alpha", "#8DAA9A"),
-            wibox.container.background(mykeyboardlayout, "#8DAA9A"),
-            separators.arrow_left("#8DAA9A", "#C0C0A2"),
-            wibox.container.background(wibox.widget.systray(), "#C0C0A2"),
-            separators.arrow_left("#C0C0A2", "#777E76"),
-            wibox.container.background(mytextclock, "#777E76"),
-            separators.arrow_left("#777E76", "alpha")
+            wibox.widget.systray(),
+            sep,
+            mpdw,
+            sep,
+            prev_icon,
+            stop_icon,
+            play_pause_icon,
+            next_icon,
+            sep,
+            net_widgetdl,
+            net_widgetul,
+            sep,
+            cpu_widget,
+            sep,
+            mem_widget,
+            sep,
+            fs_widget,
+            sep,
+            volume_widget,
+            --sep,
+            --mykeyboardlayout.widget,
+            sep,
+            baticon,
+            bat,
+            sep,
+            clockwidget,
+            sep,
+            user_widget,
+            sep,
+            s.mylayoutbox,
         },
-    }
-
-    s.bottombar:setup {
-        layout = wibox.layout.align.horizontal,
-        mylauncher,
-        s.mytasklist
     }
 end)
 -- }}}
@@ -296,6 +430,9 @@ root.buttons(gears.table.join(
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
+    awful.key({ modkey, }, "z", function () quake:toggle() end,
+              {description = "dropdown application", group = "launcher"}),
+
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
@@ -304,6 +441,8 @@ globalkeys = gears.table.join(
               {description = "view next", group = "tag"}),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
+    
+    awful.key({ modkey }, "l", function() awful.util.spawn(i3lock_settings) end),
 
     awful.key({ modkey,           }, "j",
         function ()
@@ -366,7 +505,7 @@ globalkeys = gears.table.join(
               {description = "select previous", group = "layout"}),
 
     awful.key({ modkey, "Control" }, "n",
-    function ()
+              function ()
                   local c = awful.client.restore()
                   -- Focus restored client
                   if c then
@@ -377,19 +516,9 @@ globalkeys = gears.table.join(
               {description = "restore minimized", group = "client"}),
 
     -- Prompt
-    awful.key({ modkey },            "r",     function () awful.util.spawn("rofi -columns 3 -disable-history -show run") end,
+    awful.key({ modkey }, "r", function () awful.util.spawn("rofi -columns 3 -disable-history -sidebar-mode -show run") end,
               {description = "run prompt", group = "launcher"}),
 
-    awful.key({ modkey }, "x",
-              function ()
-                  awful.prompt.run {
-                    prompt       = "Run Lua code: ",
-                    textbox      = awful.screen.focused().mypromptbox.widget,
-                    exe_callback = awful.util.eval,
-                    history_path = awful.util.get_cache_dir() .. "/history_eval"
-                  }
-              end,
-              {description = "lua execute prompt", group = "awesome"}),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
@@ -397,50 +526,49 @@ globalkeys = gears.table.join(
     -- Volume
     awful.key({}, "#123",
         function ()
-            os.execute(string.format("amixer -q set %s 1%%+", beautiful.volume.channel))
-            beautiful.volume.update()
+            os.execute("amixer -q set Master 1%+")
         end,
         {description = "volume up", group = "hotkeys"}),
     awful.key({}, "#122",
         function ()
-            os.execute(string.format("amixer -q set %s 1%%-", beautiful.volume.channel))
-            beautiful.volume.update()
+            os.execute("amixer -q set Master 1%-")
         end,
         {description = "volume down", group = "hotkeys"}),
     awful.key({}, "#121",
         function ()
-            os.execute(string.format("amixer -q set %s toggle", beautiful.volume.togglechannel or beautiful.volume.channel))
-            beautiful.volume.update()
+            os.execute("amixer -q set Master toggle")
         end,
         {description = "toggle mute", group = "hotkeys"}),
 
         -- MPD control
-    awful.key({}, "#172",
+    awful.key({ }, "#172",
         function ()
             awful.spawn.with_shell("mpc toggle")
-            beautiful.mpd.update()
+            mpdwidget.update()
         end,
         {description = "mpc toggle", group = "widgets"}),
-    awful.key({}, "#174",
+    awful.key({}, "XF86AudioStop",
         function ()
             awful.spawn.with_shell("mpc stop")
-            beautiful.mpd.update()
+            mpdwidget.update()
         end,
         {description = "mpc stop", group = "widgets"}),
     awful.key({}, "#173",
         function ()
             awful.spawn.with_shell("mpc prev")
-            beautiful.mpd.update()
+            mpdwidget.update()
         end,
         {description = "mpc prev", group = "widgets"}),
     awful.key({}, "#171",
         function ()
             awful.spawn.with_shell("mpc next")
-            beautiful.mpd.update()
+            mpdwidget.update()
         end,
         {description = "mpc next", group = "widgets"}),
-
-    awful.key({}, "#148",     function () awful.util.spawn("mate-calc") end,
+    
+    awful.key({ modkey }, "x", function() xrandr.xrandr() end),
+    
+    awful.key({}, "#148",     function () awful.util.spawn("qalculate-gtk") end,
         {description = "run calc", group = "widgets"})
 )
 
@@ -556,6 +684,7 @@ awful.rules.rules = {
                      border_color = beautiful.border_normal,
                      focus = awful.client.focus.filter,
                      raise = true,
+                     size_hints_honor = false,
                      keys = clientkeys,
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
@@ -594,6 +723,9 @@ awful.rules.rules = {
       }, properties = { titlebars_enabled = false }
     },
 
+    -- Set Firefox to always map on the tag named "2" on screen 1.
+    -- { rule = { class = "Firefox" },
+    --   properties = { screen = 1, tag = "2" } },
 }
 -- }}}
 
@@ -642,7 +774,14 @@ client.connect_signal("request::titlebars", function(c)
             buttons = buttons,
             layout  = wibox.layout.flex.horizontal
         },
-        nil,
+        { -- Right
+            awful.titlebar.widget.floatingbutton (c),
+            awful.titlebar.widget.maximizedbutton(c),
+            awful.titlebar.widget.stickybutton   (c),
+            awful.titlebar.widget.ontopbutton    (c),
+            awful.titlebar.widget.closebutton    (c),
+            layout = wibox.layout.fixed.horizontal()
+        },
         layout = wibox.layout.align.horizontal
     }
 end)

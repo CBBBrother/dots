@@ -10,12 +10,9 @@ Xft.rgba                     : rgb
 
 URxvt.background             : #1B1D1E
 URxvt.foreground             : #CCCCCC
-URxvt.font                   : xft:Source Code Pro Medium:pixelsize=14, xft:DejaVu Sans Mono for 
-Powerline:size=12
+URxvt.font                   : xft:Roboto Mono Medium for Powerline:pixelsize=14, xft:DejaVu Sans Mono for Powerline:size=14
 URxvt.letterSpace            : 0
-URxvt.boldFont               : xft:Source Code Pro Medium:bold:pixelsize=14, xft:DejaVu Sans Mono 
-for Powerline:bold:size=12
+URxvt.boldFont               : xft:Roboto Mono Medium for Powerline:bold:pixelsize=14, xft:DejaVu Sans Mono for Powerline:bold:size=14
 URxvt.scrollBar              : false
 URxvt.url-select.launcher    : /usr/bin/firefox
 URxvt.url-select.underline   : true
-
