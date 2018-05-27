@@ -1,3 +1,3 @@
 # dots
 
-![Screenshot](/rblob/master/.config/awesome/screenshot.png?raw=true)
+![Screenshot](/.config/awesome/screenshot.png?raw=true)
