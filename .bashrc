@@ -17,5 +17,5 @@ PROMPT_COMMAND=__prompt_command
 
 __prompt_command() {
 
-    PS1=" \[\e[35m\] \h ❱ \[\e[33m\] \u ❱ \[\e[34m\] \W ❱ \[\e[31m\]$(__git_ps1 " %s ❱") \n\[\e[32m\]$ \[\e[0m\]";
+PS1="\[\e[35m\]度 \h ❱ \[\e[33m\] \u ❱ \[\e[34m\] \W ❱ \[\e[31m\]$(__git_ps1 " %s ❱") \n\[\e[32m\]$ \[\e[0m\]";
 }
