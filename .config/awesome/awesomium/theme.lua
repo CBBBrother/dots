@@ -12,33 +12,36 @@ local theme_path = os.getenv("HOME") .. "/.config/awesome/awesomium"
 
 local theme = {}
 
-theme.font          = "RobotoMono Nerd Font 10"
+theme.font          = "RobotoMono Nerd Font 11"
 
-theme.bg_normal     = "#2f2f31" 
-theme.bg_focus      = "#2f2f31"
-theme.bg_urgent     = "#777777"
+theme.bg_normal     = "#333333" 
+theme.bg_focus      = "#282828"
+theme.bg_urgent     = "#FFFFFF"
 theme.bg_minimize   = "#444444"
 theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = "#ffffff"
-theme.fg_focus      = "#78a4ff"
-theme.fg_urgent     = "#000000"
-theme.fg_minimize   = "#ffffff"
+theme.fg_normal     = "#FCFCFC"
+theme.fg_focus      = "#CCCBCA"
+theme.fg_urgent     = "#FF78A3"
+theme.fg_minimize   = "#FFFFFF"
 
 theme.useless_gap   = 0
 theme.border_width  = dpi(1)
 theme.border_normal = "#141414"
-theme.border_focus  = "#93b6ff"
-theme.border_marked = "#91231c"
+theme.border_focus  = "#93B6FF"
 
-theme.taglist_fg_empty = "#444444"
-theme.taglist_fg_focus = "#f6784f"
-theme.taglist_fg_occupied = "#999999"
-theme.taglist_font = "RobotoMono Nerd Font 10"
-theme.taglist_spacing = 15
+theme.taglist_fg_focus  = "#FFE0A0"
+theme.taglist_bg_focus  = "#282828"
+theme.taglist_bg_normal = "#333333"
+theme.taglist_font = theme.font
+theme.taglist_spacing = 5
 
-theme.tasklist_font = "RobotoMono Nerd Font 10"
-theme.tasklist_disable_icon = true
+theme.titlebar_bg_normal = "#333333"
+theme.titlebar_bg_focus  = "#282828"
+theme.titlebar_font = theme.font
+
+theme.tasklist_font = theme.font
+theme.tasklist_only_icon = true
 
 theme.notification_border_color = theme.border_focus
 
@@ -74,6 +77,9 @@ theme.titlebar_maximized_button_normal_active = theme_path.."/titlebar/maximized
 theme.titlebar_maximized_button_focus_active  = theme_path.."/titlebar/maximized_focus_active.png"
 
 theme.wallpaper = theme_path.."/background.jpg"
+
+-- | ICONS | --
+theme.telegram = theme_path .. "/icons/apps/telegram.png"
 
 -- | MPD | --
 theme.mpd_prev  = theme_path .. "/icons/mpd/mpd_prev.png"

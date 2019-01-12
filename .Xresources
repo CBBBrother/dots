@@ -8,11 +8,11 @@ Xft.antialias                : 1
 Xft.dpi                      : 96
 Xft.rgba                     : rgb
 
-URxvt.background             : #1B1D1E
-URxvt.foreground             : #CCCCCC
-URxvt.font                   : xft:Roboto Mono Medium for Powerline:pixelsize=14, xft:DejaVu Sans Mono for Powerline:size=14
+URxvt.background             : #282828
+URxvt.foreground             : #EEEEEC
+URxvt.font                   : xft:RobotoMono Nerd Font:pixelsize=14, xft:DejaVu Sans Mono for Powerline:size=14, xft:octicons:size=8, 
 URxvt.letterSpace            : 0
-URxvt.boldFont               : xft:Roboto Mono Medium for Powerline:bold:pixelsize=14, xft:DejaVu Sans Mono for Powerline:bold:size=14
+URxvt.boldFont               : xft:RobotoMono Nerd Font:bold:pixelsize=14, xft:DejaVu Sans Mono for Powerline:bold:size=14, xft:octicons:size=8, 
 URxvt.scrollBar              : false
 URxvt.url-select.launcher    : /usr/bin/firefox
 URxvt.url-select.underline   : true
