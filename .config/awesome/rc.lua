@@ -47,8 +47,8 @@ end
 beautiful.init(os.getenv('HOME') .. "/.config/awesome/awesomium/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvt"
-browser = "firefox"
+terminal = "termite"
+browser = "google-chrome-stable"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 i3lock_settings = "lock -f Meslo-LG-S-Regular -t 'Locked' -n"
