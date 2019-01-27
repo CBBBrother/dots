@@ -359,9 +359,6 @@ local function set_wallpaper(s)
     end
 end
 
--- Quake
-local quake = lain.util.quake({ app = terminal, extra = "-e mc", height = 1 })
-
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
@@ -464,8 +461,6 @@ root.buttons(gears.table.join(
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
-    awful.key({ modkey, }, "z", function () quake:toggle() end,
-              {description = "dropdown application", group = "launcher"}),
     awful.key({ modkey, "Shift",  }, "F2",
               function ()
                   awful.prompt.run {
