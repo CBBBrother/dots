@@ -6,15 +6,16 @@ local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 
+local gears = require("gears")
 local gsh = require("gears.shape")
 local gfs = require("gears.filesystem")
 local theme_path = os.getenv("HOME") .. "/.config/awesome/awesomium"
 
 local theme = {}
 
-theme.font          = "RobotoMono Nerd Font 11"
+theme.font          = "RobotoMono Nerd Font 14"
 
-theme.bg_normal     = "#333333" 
+theme.bg_normal     = "#333333"
 theme.bg_focus      = "#282828"
 theme.bg_urgent     = "#FFFFFF"
 theme.bg_minimize   = "#444444"
@@ -48,6 +49,17 @@ theme.notification_border_color = theme.border_focus
 theme.menu_submenu_icon = theme_path.."/submenu.png"
 theme.menu_height = dpi(20)
 theme.menu_width  = dpi(130)
+
+-- {{{ hotkey cheat sheet
+theme.hotkeys_description_font = "RobotoMono Nerd Font 9"
+theme.hotkeys_font = "RobotoMono Nerd Font 10"
+theme.hotkeys_group_margin = dpi(12)
+theme.hotkeys_label_bg = "#8ec07cd8"
+theme.hotkeys_modifiers_fg = "#8ec07cd8"
+theme.hotkeys_shape = function(cr,w,h)
+    gears.shape.rounded_rect(cr,w,h,theme.border_radius)
+end
+-- }}}
 
 -- Define the image to load
 theme.titlebar_close_button_normal = theme_path.."/titlebar/close_normal.png"
