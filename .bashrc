@@ -4,7 +4,7 @@
 export TERM="xterm-256color"
 
 alias l='ls -lh --color=always --group-directories-first --sort=size'
-alias ls='ls -lah --color=auto'
+alias ll='ls -lah --color=auto'
 
 eval $(dircolors -b $HOME/.config/dir_colours)
 
