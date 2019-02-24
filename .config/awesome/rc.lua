@@ -101,8 +101,10 @@ end
 run_once({ "xautolock -time 10 -corner -locker 'lock -f Meslo-LG-S-Regular -t Locked'" })
 
 -- Menu ---
-mymainmenu = awful.menu({ items = {{ " terminal", terminal },
-                                   { " firefox", browser },
+local myawesomemenu = awful.menu({ items = {{ " terminal", terminal },
+                                   { " chrome", browser },
+                                   { " sublime text", "sublime_text_3" },
+                                   { " telegram", "telegram" },
                                    { " pcmanfm", "pcmanfm" },
                                    { " tor", "tor-browser.desktop" },
                                    { "---------", "" },
@@ -116,13 +118,9 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- }}}
 
 -- Keyboard map indicator and switcher
---[[mykeyboardlayout = lain.widget.kbdlayout({
-    layouts = { { layout = "us" },
-	            { layout = "ru" } },
-    settings = function()
-            widget:set_text(kbdlayout_now.layout)
-    end
-})--]]
+mykeyboard = awful.widget.keyboardlayout:new()
+mykeyboard.widget:set_font(beautiful.font)
+mykeyboard.widget:set_align("center")
 
 -- | Markup | --
 local markup = lain.util.markup
@@ -137,7 +135,7 @@ ver_sep:set_font("RobotoMono Nerd Font 9")
 user_widget = wibox.widget.textbox()
 vicious.register(user_widget, vicious.widgets.os, " $3 ", 5)
 user_widget:buttons(awful.util.table.join(
-                    awful.button({ }, 1, function () mymainmenu:toggle({ coords = { y = 1000, x = 14 }}) end)))
+                    awful.button({ }, 1, function () myawesomemenu:toggle({ coords = { y = 1000, x = 14 }}) end)))
 
 -- Battery
 baticon = wibox.widget.imagebox(beautiful.widget_battery)
@@ -368,7 +366,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "web", "term", "file", "misc", "music", "ssh" }, s, awful.layout.layouts[1])
+    awful.tag({ "web", "term", "code", "misc", "ssh" }, s, awful.layout.layouts[1])
 
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
@@ -413,6 +411,8 @@ awful.screen.connect_for_each_screen(function(s)
             hor_sep,
             clockwidget,
             hor_sep,
+            mykeyboard,
+            hor_sep,
             baticon,
             bat
         },
@@ -453,7 +453,7 @@ end)
 
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
+    awful.button({ }, 3, function () myawesomemenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
 ))
@@ -494,7 +494,7 @@ globalkeys = gears.table.join(
         end,
         {description = "focus previous by index", group = "client"}
     ),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
+    awful.key({ modkey,           }, "w", function () myawesomemenu:show() end,
               {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
