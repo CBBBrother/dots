@@ -99,8 +99,7 @@ end
 
 -- Run Once ---
 run_once({ "xautolock -time 10 -corner -locker 'lock -f Meslo-LG-S-Regular -t Locked'" })
-
--- Menu ---
+run_once({ "setxkbmap -model pc105 -layout us,ru -option grp:alt_shift_toggle" })
 local myawesomemenu = awful.menu({ items = {{ " terminal", terminal },
                                    { " chrome", browser },
                                    { " sublime text", "sublime_text_3" },
