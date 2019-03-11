@@ -1,3 +1,9 @@
+let skip_defaults_vim=1
+
+set mouse=a
+
+set viminfo=""
+
 " отключить совместимость с vi
 set nocompatible 
 
