@@ -74,7 +74,7 @@ set expandtab
 set textwidth=95
 
 if has('gui_running')
-    set guifont=RobotoMono\ Nerd\ Font\ 14
+    set guifont=Iosevka\ Term:h14
 endif
 
 " Ctrl+n позазывает/прячет NERDTree
@@ -82,12 +82,18 @@ map <C-n> :NERDTreeToggle<cr>
 
 " игнорируем некоторые скомпилированные файлы python и объектники С++ в окне NERDTree
 let NERDTreeIgnore = ['\.pyc$', '\.o$']
+let g:NERDTreeWinPos = "right"
 
 " Открытие Tagbar справа
 nmap <F8> :TagbarToggle<CR>
 
+" запуск CtrlP
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlPMRU'
+let g:ctrlp_working_path_mode = 'ra'
+
 " установка цветовой схемы
-let g:hybrid_use_Xresources=1
+let g:hybrid_use_Xresources=0
 colorscheme hybrid
 
 " добавляет airline в области вкладок
