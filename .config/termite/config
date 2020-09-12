@@ -2,9 +2,12 @@
 #allow_bold = true
 #audible_bell = false
 #bold_is_bright = true
+#cell_height_scale = 1.0
+#cell_width_scale = 1.0
 #clickable_url = true
-#dynamic_title = true
-font = RobotoMono Nerd Font 14
+dynamic_title = true
+font = RobotoMono Nerd Font 13
+font = MesloLGS NF 13
 #fullscreen = true
 #icon_name = terminal
 #mouse_autohide = false
@@ -15,10 +18,10 @@ font = RobotoMono Nerd Font 14
 scrollback_lines = 10000
 #search_wrap = true
 #urgent_on_bell = true
-#hyperlinks = false
+hyperlinks = true
 
 # $BROWSER is used by default if set, with xdg-open as a fallback
-browser = google-chrome-stable
+browser = firefox
 
 # "system", "on" or "off"
 #cursor_blink = system
@@ -52,32 +55,32 @@ browser = google-chrome-stable
 #background = rgba(63, 63, 63, 0.8)
 
 # If unset, will reverse foreground and background
-#highlight = #2f2f2f
+highlight = #2f2f2f
 
 # Colors from color0 to color254 can be set
-color0 = #333333
-color1 = #ff78a3
-color2 = #b6ff93
-color3 = #ffd378
-color4 = #78a4ff
-color5 = #8f78ff
-color6 = #78e7ff
-color7 = #cccbca
-color8 = #777777
-color9 = #ffa0be
-color10 = #bdff9d
-color11 = #ffe0a0
-color12 = #93b6ff
-color13 = #b0a0ff
-color14 = #a0eeff
-color15 = #fcfcfc
+color0 = #3f3f3f
+color1 = #705050
+color2 = #60b48a
+color3 = #dfaf8f
+color4 = #506070
+color5 = #dc8cc3
+color6 = #8cd0d3
+color7 = #dcdccc
+color8 = #709080
+color9 = #dca3a3
+color10 = #c3bf9f
+color11 = #f0dfaf
+color12 = #94bff3
+color13 = #ec93d3
+color14 = #93e0e3
+color15 = #ffffff
 
 [hints]
-font = RobotoMono Nerd Font 14
+#font = Monospace 12
 #foreground = #dcdccc
 #background = #3f3f3f
-active_foreground = #282828
-active_background = #eeeeec
+#active_foreground = #e68080
+#active_background = #3f3f3f
 #padding = 2
 #border = #3f3f3f
 #border_width = 0.5

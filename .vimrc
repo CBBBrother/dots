@@ -1,51 +1,24 @@
-let skip_defaults_vim=1
-
 set mouse=a
 
 set viminfo=""
 
-" отключить совместимость с vi
-set nocompatible 
+set nocompatible
 
-" посдветка синтаксиса
-syntax enable
+syntax on
 
-" включить отображение номеров строк
 set number
 
-" кодировка файлов
 set encoding=utf-8
 set termencoding=utf-8
 
-" показывать первую парную скобку после ввода второй 
+" показывать первую парную скобку после ввода второй
 set showmatch
 
 " отключаем создание swp файлов
 set noswapfile
 
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'scrooloose/nerdtree'
-Plugin 'tomasr/molokai'
-Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'vim-airline/vim-airline'
-Plugin 'majutsushi/tagbar'
-Plugin 'kien/ctrlp.vim'
-
-" Syntastic ставится через pacman
-call vundle#end()
-filetype plugin indent on
-
 " показывать строку статуса всегда
 set laststatus=2
-
-" использовать больше цветов в терминале
-set t_Co=256
-
-" в gui режиме убираем лишнее
-set guioptions=
 
 " включаем подсветку выражения, которое ищется в текст
 set hlsearch
@@ -71,22 +44,25 @@ set shiftwidth=4
 " преобразовывать табуляцию в пробелы
 set expandtab
 
-" ширина текста в символах
-set textwidth=95
+filetype off
 
-if has('gui_running')
-    set guifont=Iosevka\ Term:h14
-endif
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-" Ctrl+n позазывает/прячет NERDTree
-map <C-n> :NERDTreeToggle<cr>
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'vim-airline/vim-airline'
+Plugin 'majutsushi/tagbar'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plugin 'ryanoasis/vim-devicons'
+Plugin 'octol/vim-cpp-enhanced-highlight'
 
-" игнорируем некоторые скомпилированные файлы python и объектники С++ в окне NERDTree
-let NERDTreeIgnore = ['\.pyc$', '\.o$']
-let g:NERDTreeWinPos = "right"
+call vundle#end()            " required
+filetype plugin indent on    " required
 
-" Открытие Tagbar справа
-nmap <F8> :TagbarToggle<CR>
+set t_Co=256
 
 " запуск CtrlP
 let g:ctrlp_map = '<c-p>'
@@ -94,8 +70,21 @@ let g:ctrlp_cmd = 'CtrlPMRU'
 let g:ctrlp_working_path_mode = 'ra'
 
 " установка цветовой схемы
-let g:hybrid_use_Xresources=0
-colorscheme hybrid
+set background=dark
+let g:gruvbox_contrast_dark = 'medium'
+colorscheme gruvbox
+
+
+" Ctrl+n позазывает/прячет NERDTree
+map <C-n> :NERDTreeToggle<cr>
+
+
+" игнорируем некоторые скомпилированные файлы python и объектники С++ в окне NERDTree
+let NERDTreeIgnore = ['\.pyc$', '\.o$']
+
+" Открытие Tagbar справа
+nmap <F8> :TagbarToggle<CR>
+
 
 " добавляет airline в области вкладок
 let g:airline#extensions#tabline#enabled = 1
@@ -114,3 +103,6 @@ let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
+
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
