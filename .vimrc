@@ -22,6 +22,7 @@ set laststatus=2
 
 " включаем подсветку выражения, которое ищется в текст
 set hlsearch
+nnoremap <silent> <Space> :nohlsearch<BAR>:echo<CR>
 
 " eсли искомое выражения содержит символы в верхнем регистре — ищет с учётом регистра, иначе — без учёта
 set smartcase
