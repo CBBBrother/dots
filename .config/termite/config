@@ -43,7 +43,7 @@ cursor_shape = block
 [colors]
 background = #eaeaea
 cursor = #16afca
-foreground = #232223
+foreground = #232322
 color0 = #212121
 color1 = #b7141f
 color2 = #457b24
@@ -61,6 +61,8 @@ color13 = #aa4dbc
 color14 = #26bbd1
 color15 = #d9d9d9
 colorBD = #b7141f
+colorIT =
+colorUL =
 [hints]
 #font = Monospace 12
 #active_foreground = #e68080
